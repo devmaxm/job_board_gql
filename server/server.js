@@ -7,8 +7,10 @@ import {readFile} from 'node:fs/promises'
 import {resolvers} from "./resolvers.js";
 import {getUser} from "./db/users.js";
 import {createCompanyLoader} from "./db/companies.js";
+import {config} from "dotenv";
+config()
 
-const PORT = 9000;
+const PORT = process.env.PORT;
 
 const app = express();
 app.use(cors(), express.json(), authMiddleware);
@@ -17,7 +19,7 @@ app.post('/login', handleLogin);
 
 const typeDefs = await readFile('./schema.graphql', 'utf-8')
 
-async function gqlContext ({req}) {
+async function gqlContext({req}) {
     const companyLoader = createCompanyLoader()
     const context = {companyLoader}
     if (req.auth) {

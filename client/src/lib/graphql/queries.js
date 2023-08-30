@@ -2,7 +2,9 @@ import {getAccessToken} from "../auth";
 import {ApolloClient, InMemoryCache, gql, createHttpLink, concat, ApolloLink} from '@apollo/client'
 
 
-const httpLink = createHttpLink({uri: 'http://localhost:9000/graphql'})
+
+console.log(process.env.REACT_APP_API_URL)
+const httpLink = createHttpLink({uri: `${process.env.REACT_APP_API_URL}/graphql`})
 
 const authLink = new ApolloLink((operation, forward) => {
     const accessToken = getAccessToken()
